@@ -41,43 +41,42 @@ def cal(Tracker):
     return len(nC)
 
 def check(Tracker, nC):
-
+    
     img   = ig.grab()
-    img.show()
-    print("shown")
+    #img.show()
+    #print("shown")
     frame = np.array(img)
 
     contours = Tracker.getContours(frame)
     val      = len(contours)  
     c        = val                 #need to modify output and take into account premptively detected contours
-    mxyList  = []
 
     time.sleep(2)
 
-    for i in range(len(contours)):
-        #------ Basic Declarations ---------------------
+    # for i in range(len(contours)):
+    #     #------ Basic Declarations ---------------------
 
-        p         = contours[i]
-        #desired area
-        area      = cv2.contourArea(contours[i])
+    #     p         = contours[i]
+    #     #desired area
+    #     area      = cv2.contourArea(contours[i])
         
-        #-------------------------------------------------
+    #     #-------------------------------------------------
         
-        #------- Contour Calculations --------------------
+    #     #------- Contour Calculations --------------------
             
-        if area >= minArea and area <= maxArea:
+    #     if area >= minArea and area <= maxArea:
             
-            #make rotating boxes around points
-            rect = cv2.minAreaRect(p)
-            box	 = cv2.boxPoints(rect)
-            box  = np.int0(box)
+    #         #make rotating boxes around points
+    #         rect = cv2.minAreaRect(p)
+    #         box	 = cv2.boxPoints(rect)
+    #         box  = np.int0(box)
 
-            #put the box onto the original frame
-            cv2.drawContours(frame, [box], 0, (0,255,0), 2)
+    #         #put the box onto the original frame
+    #         cv2.drawContours(frame, [box], 0, (0,255,0), 2)
 
-            cv2.imshow("message", frame)
-            if cv2.waitKey(1) == 27:
-                input()
+    #         cv2.imshow("message", frame)
+    #         if cv2.waitKey(1) == 27:
+    #             input()
             
 
     if c == nC > 1:
@@ -93,6 +92,7 @@ def check(Tracker, nC):
     else:
         print("No changes")
     
+    print(c)
     return Tracker.subject
 
 

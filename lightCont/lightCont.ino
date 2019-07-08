@@ -1,5 +1,3 @@
-#include <Adafruit_MCP4725.h>
-
 #include <Wire.h>
 #include <Adafruit_MCP4725.h>
 Adafruit_MCP4725 dac;
@@ -19,12 +17,19 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  int mes = Serial.read();
+  //digitalWrite(pin, HIGH);
 
-  if (mes == 1) {
-    dac.setVoltage(volt, false);
+  
+  if (Serial.available() > 0) {
+    Serial.println("Recieved");
+    delay(100);
+
   }
   else {
-    dac.setVoltage(0, false);
+    digitalWrite(pin, HIGH);
+    Serial.write("Nope");
+    delay(100);
+    
+
   }
 }

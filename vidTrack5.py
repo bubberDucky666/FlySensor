@@ -16,7 +16,7 @@ import numpy   			 as np
 import time
 from cv2 import cv2
 import _pickle 			 as pickle
-import vidThreading      as vT
+#import vidThreading      as vT
 import os
 
 #------------ Constants --------------

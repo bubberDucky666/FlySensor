@@ -1,15 +1,17 @@
+#include <Adafruit_MCP4725.h>
+
 #include <Wire.h>
 #include <Adafruit_MCP4725.h>
 Adafruit_MCP4725 dac;
 
+int volt = 5;
+int pin  = 5;
+
+
+
 void setup() {
-
-  // put your setup code here, to run once:
-  int volt = 5;
-  int pin  = 5;
-
   int baud = 9600;
-
+  // put your setup code here, to run once:
   Serial.begin(baud);
   pinMode(pin, OUTPUT);
 }

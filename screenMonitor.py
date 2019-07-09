@@ -13,7 +13,7 @@ minArea 	= 1000
 maxArea     = 4000
 
 # Initial calibration period
-def cal(Tracker):
+def cal(Tracker, minArea, maxArea):
     input("Open camera software but do not add fly to video")
     print("Calibration starting")
    
@@ -29,25 +29,33 @@ def cal(Tracker):
     var    = True
     while var:
         neutAr = []
+
         for i in range(3):
+            count  = 0
             img = ig.grab()
             img = np.array(img)
 
-            val = Tracker.getContours(img)
-            neutAr.append(val)
+            val  = Tracker.getContours(img)
+            
+            for c in val:
+                area = cv2.contourArea(c)
+                if area < maxArea and area > minArea:
+                    count = count + 1
+
+            neutAr.append(count)
             #cv2.imshow("ye", img )
-        c0 = len(neutAr[0])
-        c1 = len(neutAr[1])
-        c2 = len(neutAr[2])
+        c0 = neutAr[0]
+        c1 = neutAr[1]
+        c2 = neutAr[2]
         print(c0, c1, c2)
 
         if c0 == c1 and c1 ==c2:
-            nC  = neutAr[1]
+            nC  = c1
             var = False
 
     print("Calibration compleate")
     input("Hit enter/space, then start recording. Hit same button to end.")
-    return [nC-10, nC+1]
+    return nC #[(nC-10), (nC+1)]
 
 def check(Tracker, nC, minArea, max):
     
@@ -59,7 +67,7 @@ def check(Tracker, nC, minArea, max):
 
     contours = Tracker.getContours(frame)
 
-    time.sleep(2)
+    #time.sleep(.5)
 
     for i in range(len(contours)):
         #------ Basic Declarations ---------------------

@@ -9,15 +9,15 @@ baud    = 9600
 
 threshold = 180
 maxVal    = 225
-minArea   = 4000
-maxArea   = 10000
+minArea   = 400
+maxArea   = 1000
 
 Port = serial.Serial(prtName, baud, timeout=.1)
 time.sleep(.5)
 
 Tracker = sM.Tracker(threshold, maxVal, minArea, maxArea)
 
-nC = sM.cal(Tracker)
+nC = sM.cal(Tracker, minArea, maxArea)
 
 # input("Send thing") 
 # while True:
@@ -28,7 +28,7 @@ nC = sM.cal(Tracker)
 while True:
     c = sM.check(Tracker, nC, Tracker.minArea, maxArea)
 
-    time.sleep(2)
+    #time.sleep(.2)
 
     msg     = Port.read()
     #oC      = subject
@@ -42,13 +42,14 @@ while True:
     # print("___________________")
    
 
-    if c not in nC and c > nC[1]:
+    if c > nC:
         Port.write(1)
-        print("Detected")
+        print("DETECTED")
         time.sleep(.08)
         
         while True:
             c = sM.check(Tracker, nC, Tracker.minArea, Tracker.maxArea)
-            if c < nC:
+            Port.write(1)
+            if c <= nC:
                 break
         

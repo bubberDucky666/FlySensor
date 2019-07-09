@@ -42,8 +42,9 @@ while True:
     # print("___________________")
    
 
-    if c > nC:
+    if c not in nC and c > nC[1]:
         Port.write(1)
+        print("Detected")
         time.sleep(.08)
         
         while True:

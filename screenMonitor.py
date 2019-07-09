@@ -4,6 +4,7 @@ from PIL import ImageGrab as ig
 import numpy as np
 from vidTrack5 import Tracker
 import serial
+import time
 
 dur         = 1
 threshold 	= 90
@@ -15,6 +16,15 @@ maxArea     = 4000
 def cal(Tracker):
     input("Open camera software but do not add fly to video")
     print("Calibration starting")
+   
+    time.sleep(.5)
+    print("3")
+    time.sleep(.5)
+    print("2")
+    time.sleep(.5)
+    print("1")
+    time.sleep(.5)
+
 
     var    = True
     while var:
@@ -29,7 +39,6 @@ def cal(Tracker):
         c0 = len(neutAr[0])
         c1 = len(neutAr[1])
         c2 = len(neutAr[2])
-
         print(c0, c1, c2)
 
         if c0 == c1 and c1 ==c2:
@@ -38,7 +47,7 @@ def cal(Tracker):
 
     print("Calibration compleate")
     input("Hit enter/space, then start recording. Hit same button to end.")
-    return len(nC)
+    return [nC-10, nC+1]
 
 def check(Tracker, nC, minArea, max):
     

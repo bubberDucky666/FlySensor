@@ -20,16 +20,20 @@ void loop() {
   //digitalWrite(pin, HIGH);
 
   
-  if (Serial.available() > 0) {
-    Serial.println("Recieved");
-    delay(100);
-
-  }
-  else {
-    digitalWrite(pin, HIGH);
-    Serial.write("Nope");
-    delay(100);
+  while (Serial.available()) {   
+    int msg = Serial.read();
+    Serial.write(msg);
+    Serial.write("hi");
     
-
+    //if (msg == 1) {
+    digitalWrite(pin, 0);
+    Serial.write("Recieved");
+    delay(100);
+    //}
+ 
   }
+  digitalWrite(pin, HIGH);
+  //Serial.write("Nope");
+  delay(100);
+    
 }

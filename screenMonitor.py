@@ -8,7 +8,7 @@ import serial
 dur         = 1
 threshold 	= 90
 maxVal		= 100
-minArea 	= 400
+minArea 	= 1000
 maxArea     = 4000
 
 # Initial calibration period
@@ -40,60 +40,47 @@ def cal(Tracker):
     input("Hit enter/space, then start recording. Hit same button to end.")
     return len(nC)
 
-def check(Tracker, nC):
+def check(Tracker, nC, minArea, max):
     
     img   = ig.grab()
     #img.show()
     #print("shown")
     frame = np.array(img)
+    c     = 0
 
     contours = Tracker.getContours(frame)
-    val      = len(contours)  
-    c        = val                 #need to modify output and take into account premptively detected contours
 
     time.sleep(2)
 
-    # for i in range(len(contours)):
-    #     #------ Basic Declarations ---------------------
+    for i in range(len(contours)):
+        #------ Basic Declarations ---------------------
 
-    #     p         = contours[i]
-    #     #desired area
-    #     area      = cv2.contourArea(contours[i])
+        p         = contours[i]
+        #desired area
+        area      = cv2.contourArea(p)
         
-    #     #-------------------------------------------------
+        #-------------------------------------------------
         
-    #     #------- Contour Calculations --------------------
+        #------- Contour Calculations --------------------
             
-    #     if area >= minArea and area <= maxArea:
+        if area >= minArea and maxArea <= maxArea:
             
-    #         #make rotating boxes around points
-    #         rect = cv2.minAreaRect(p)
-    #         box	 = cv2.boxPoints(rect)
-    #         box  = np.int0(box)
+            c = c +1
 
-    #         #put the box onto the original frame
-    #         cv2.drawContours(frame, [box], 0, (0,255,0), 2)
+            # #make rotating boxes around points
+            # rect = cv2.minAreaRect(p)
+            # box	 = cv2.boxPoints(rect)
+            # box  = np.int0(box)
 
-    #         cv2.imshow("message", frame)
-    #         if cv2.waitKey(1) == 27:
-    #             input()
-            
+            # #put the box onto the original frame
+            # cv2.drawContours(frame, [box], 0, (0,255,0), 2)
 
-    if c == nC > 1:
-        print("One object added")
-        Tracker.subject = 1
-    elif c == nC -1:
-        print("One object lost")
-    elif c < nC -1:
-        print("Multiple objects lost")
-        Tracker.subject = 1
-    elif c > nC+1:
-        print("Multiple objects added")
-    else:
-        print("No changes")
+            # cv2.imshow("message", frame)
+            # if cv2.waitKey(1) == 27:
+            #    input()
     
     print(c)
-    return Tracker.subject
+    return c
 
 
 
